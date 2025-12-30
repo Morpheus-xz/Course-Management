@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Vehicle; // keep as it is
+import com.example.demo.model.Course;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,42 +12,42 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CourseController {
 
-    private List<Vehicle> courses = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
     private int idCounter = 1;
 
-    // SHOW PAGE
+    // READ - show all courses
     @GetMapping
     public String showCourses(Model model) {
         model.addAttribute("courses", courses);
-        model.addAttribute("course", new Vehicle());
-        return "courses";   // JSP name unchanged
+        model.addAttribute("course", new Course());
+        return "courses";
     }
 
-    // ADD COURSE
+    // CREATE - add course
     @PostMapping("/add")
-    public String addCourse(@RequestParam String number,
-                            @RequestParam String owner) {
+    public String addCourse(@RequestParam String courseCode,
+                            @RequestParam String courseName) {
 
-        Vehicle c = new Vehicle();
-        c.setId(idCounter++);
-        c.setNumber(number);   // courseCode
-        c.setOwner(owner);     // courseName
-        courses.add(c);
+        Course course = new Course();
+        course.setId(idCounter++);
+        course.setCourseCode(courseCode);
+        course.setCourseName(courseName);
 
+        courses.add(course);
         return "redirect:/courses";
     }
 
-    // DELETE COURSE
+    // DELETE
     @GetMapping("/delete/{id}")
     public String deleteCourse(@PathVariable int id) {
         courses.removeIf(c -> c.getId() == id);
         return "redirect:/courses";
     }
 
-    // EDIT COURSE
+    // UPDATE (load data)
     @GetMapping("/edit/{id}")
     public String editCourse(@PathVariable int id, Model model) {
-        for (Vehicle c : courses) {
+        for (Course c : courses) {
             if (c.getId() == id) {
                 model.addAttribute("course", c);
                 break;
@@ -57,16 +57,16 @@ public class CourseController {
         return "courses";
     }
 
-    // UPDATE COURSE
+    // UPDATE (save data)
     @PostMapping("/update")
     public String updateCourse(@RequestParam int id,
-                               @RequestParam String number,
-                               @RequestParam String owner) {
+                               @RequestParam String courseCode,
+                               @RequestParam String courseName) {
 
-        for (Vehicle c : courses) {
+        for (Course c : courses) {
             if (c.getId() == id) {
-                c.setNumber(number);
-                c.setOwner(owner);
+                c.setCourseCode(courseCode);
+                c.setCourseName(courseName);
                 break;
             }
         }

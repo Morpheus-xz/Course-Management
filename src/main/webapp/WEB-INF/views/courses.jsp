@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Course Manager</title>
+    <title>Course Management</title>
 
     <style>
         * {
@@ -151,15 +151,15 @@
 
             <label>Course Code</label>
             <input type="text"
-                   name="number"
-                   value="${course.number}"
+                   name="courseCode"
+                   value="${course.courseCode}"
                    placeholder="CS101"
                    required>
 
             <label>Course Name</label>
             <input type="text"
-                   name="owner"
-                   value="${course.owner}"
+                   name="courseName"
+                   value="${course.courseName}"
                    placeholder="Data Structures"
                    required>
 
@@ -182,20 +182,20 @@
             </tr>
 
             <%
-                java.util.List<com.example.demo.model.Vehicle> list =
-                        (java.util.List<com.example.demo.model.Vehicle>) request.getAttribute("courses");
+                java.util.List<com.example.demo.model.Course> list =
+                        (java.util.List<com.example.demo.model.Course>) request.getAttribute("courses");
 
                 if (list != null) {
-                    for (com.example.demo.model.Vehicle v : list) {
+                    for (com.example.demo.model.Course c : list) {
             %>
             <tr>
-                <td><%= v.getId() %></td>
-                <td><%= v.getNumber() %></td>
-                <td><%= v.getOwner() %></td>
+                <td><%= c.getId() %></td>
+                <td><%= c.getCourseCode() %></td>
+                <td><%= c.getCourseName() %></td>
                 <td class="action">
-                    <a class="edit" href="/courses/edit/<%= v.getId() %>">Edit</a>
+                    <a class="edit" href="/courses/edit/<%= c.getId() %>">Edit</a>
                     <a class="delete"
-                       href="/courses/delete/<%= v.getId() %>"
+                       href="/courses/delete/<%= c.getId() %>"
                        onclick="return confirm('Delete this course?');">
                         Delete
                     </a>
